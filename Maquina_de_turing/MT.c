@@ -90,37 +90,32 @@ void mostrar_cinta(Cinta *cinta, const char *estado_nombre, int paso)
     printf("\n=== MAQUINA DE TURING - Paso %d ===\n", paso);
     printf("Estado actual: %s\n\n", estado_nombre);
 
-    // Calcular rango a mostrar
-    int inicio_mostrar = cinta->cabezal - 20;
-    int fin_mostrar = cinta->cabezal + 20;
+    // Mostrar un rango fijo de la cinta (la cinta se queda estática)
+    int inicio_mostrar = cinta->inicio - 5;
+    int fin_mostrar = cinta->fin + 15;
 
     if (inicio_mostrar < 0)
         inicio_mostrar = 0;
     if (fin_mostrar >= MAX_CINTA)
         fin_mostrar = MAX_CINTA - 1;
 
-    // Extender rango si hay contenido
-    if (cinta->inicio < inicio_mostrar)
-        inicio_mostrar = cinta->inicio;
-    if (cinta->fin > fin_mostrar)
-        fin_mostrar = cinta->fin;
+    // Asegurar un rango mínimo visible
+    if (fin_mostrar - inicio_mostrar < 30)
+    {
+        fin_mostrar = inicio_mostrar + 30;
+        if (fin_mostrar >= MAX_CINTA)
+            fin_mostrar = MAX_CINTA - 1;
+    }
 
-    // Mostrar cinta
+    // Mostrar cinta (estática)
     printf("Cinta: [");
     for (int i = inicio_mostrar; i <= fin_mostrar; i++)
     {
-        if (i == cinta->cabezal)
-        {
-            printf("[%c]", cinta->simbolos[i]);
-        }
-        else
-        {
-            printf(" %c ", cinta->simbolos[i]);
-        }
+        printf(" %c ", cinta->simbolos[i]);
     }
     printf("]\n");
 
-    // Indicador del cabezal
+    // Indicador del cabezal - SE MUEVE de posición
     printf("        ");
     for (int i = inicio_mostrar; i <= fin_mostrar; i++)
     {
